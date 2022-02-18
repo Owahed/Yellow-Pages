@@ -13,7 +13,7 @@
 <div>
     <section class="dropdown-wrapper">
         <div @click="isVisible=!isVisible" class="selected-item">
-            <span v-if="selectedItem">{{selectedItem.name}}</span>
+            <span v-if="selectedItem">{{selectedItem.city}}</span>
             <span v-else>Select User</span>
             <svg :class="isVisible ? 'dropdown':''" class="select-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                 <path fill="none" d="M0 0h24v24H0z" />
@@ -25,13 +25,21 @@
             <span v-if="filteredUser.length===0">No Data Available</span>
             <div class="options">
                 <ul>
-                    <li @click="selectItem(user)" v-for="(user,index) in filteredUser" :key="`user-${index}`"><a class="itemNum" href="#">{{user.name}}</a></li>
+                    <li @click="selectItem(user)" v-for="(user,index) in filteredUser" :key="`user-${index}`"><a class="itemNum" href="#">{{user.city}}</a></li>
 
                 </ul>
             </div>
         </div>
     </section>
-    
+    <section>
+        <div>
+            <h1 v-if="selectedItem">City: <span class="selected-city-state">{{selectedItem.city}}</span> </h1>
+            <h3 v-if="selectedItem">State: <span class="selected-city-state">{{selectedItem.state}}</span> </h3>
+            <h4 v-if="selectedItem">Population: <span class="selected-city-state">{{selectedItem.population}}</span></h4>
+            <h3 v-else>Name</h3>
+
+        </div>
+    </section>
 </div>
 </template>
 
@@ -64,7 +72,7 @@ export default {
         }
     },
     mounted() {
-        fetch("https://jsonplaceholder.typicode.com/users")
+        fetch("https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json")
             .then(res => res.json())
             .then((json) => {
                 console.log(json);
@@ -151,5 +159,8 @@ li:hover {
 .itemNum {
     text-decoration: none;
     color: black;
+}
+.selected-city-state{
+    color: red;
 }
 </style>
